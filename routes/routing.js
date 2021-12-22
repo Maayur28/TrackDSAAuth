@@ -2,6 +2,9 @@ const express = require("express");
 const authObj = require("../middleware/auth");
 const service = require("../services/user");
 const routes = express.Router();
+const fetch = require("isomorphic-fetch");
+const sendMailObj = require("../middleware/sendMail");
+require("dotenv").config();
 
 routes.post("/login", async (req, res, next) => {
   try {
@@ -66,6 +69,30 @@ routes.post("/reset", authObj.verifyJwt, async (req, res, next) => {
     } else {
       return res.json({ status: false }).status(400);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+routes.post("/contact", async (req, res, next) => {
+  try {
+    if (!req.body.captcha) return res.json({ success: false }).status(400);
+    const secretKey = process.env.CAPTCHA_SECRET_KEY;
+    const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
+    fetch(verifyURL, {
+      method: "post",
+    })
+      .then((response) => response.json())
+      .then((google_response) => {
+        if (google_response.success == true) {
+          sendMailObj.sendContactMail(req.body);
+          return res.json({ success: true }).status(200);
+        } else {
+          return res.json({ success: false }).status(400);
+        }
+      })
+      .catch((error) => {
+        next(error);
+      });
   } catch (error) {
     next(error);
   }

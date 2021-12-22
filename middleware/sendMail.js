@@ -2,6 +2,30 @@ const nodemailer = require("nodemailer");
 
 sendMailObj = {};
 
+sendMailObj.sendContactMail = (obj) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.email,
+      pass: process.env.password,
+    },
+  });
+  const mailData = {
+    from: process.env.email,
+    to: "mayuragarwal2812@gmail.com",
+    subject: `TrackDSA Suggestion/Feedback`,
+    html: `<div>${obj.message}</div><p>Sent By: ${obj.name}</p><p>Sent from: ${obj.email}</p>`,
+  };
+  transporter.sendMail(mailData, function (err, info) {
+    if (err) {
+      console.log(err);
+      throw error;
+    } else {
+      console.log("success contact mail");
+    }
+  });
+};
+
 sendMailObj.sendResetMail = (receiverMail, name, token) => {
   const transport = nodemailer.createTransport({
     service: "gmail",
