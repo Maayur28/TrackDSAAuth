@@ -38,7 +38,7 @@ sendMailObj.sendResetMail = (receiverMail, name, token) => {
     from: "dsatracker28@gmail.com",
     to: receiverMail,
     subject: "Reset your password",
-    html: `<h2>Hi <b>${name}</b>,</h2><p>Please click on the button below to reset your password (valid only for 5 minutes)<br><br><a href=https://trackdsaauth.herokuapp.com/reset/${token} style="margin-top:10px;color:white;background-color:rgb(0,21,41);padding:10px 20px;border-radius:50px;text-decoration:none ">CLICK ME</a><p>If this doesn't work please try to copy and paste the link in your browser given below </p><br><a href=https://trackdsaauth.herokuapp.com/reset/${token}>https://trackdsaauth.herokuapp.com/reset/${token}</a>`,
+    html: `<h2>Hi <b>${name}</b>,</h2><p>Please click on the button below to reset your password (valid only for 5 minutes)<br><br><a href=https://trackdsa.vercel.app/reset/${token} style="margin-top:10px;color:white;background-color:rgb(0,21,41);padding:10px 20px;border-radius:50px;text-decoration:none ">CLICK ME</a><p>If this doesn't work please try to copy and paste the link in your browser given below </p><br><a href=https://trackdsa.vercel.app/reset/${token}>https://trackdsa.vercel.app/reset/${token}</a>`,
   };
   transport.sendMail(message, (error, info) => {
     if (error) {
