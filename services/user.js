@@ -30,7 +30,7 @@ userService.LoginService = async (userObj) => {
               { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
             );
             const jwtRefreshToken = jwt.sign(
-              { accessToken: jwtAccessToken },
+              { userid: getUserId },
               process.env.TOKEN_SECRET,
               { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME }
             );
@@ -174,7 +174,7 @@ userService.VerifyOtp = async (userid) => {
     { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
   );
   const jwtRefreshToken = jwt.sign(
-    { accessToken: jwtAccessToken },
+    { userid: userid },
     process.env.TOKEN_SECRET,
     { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME }
   );

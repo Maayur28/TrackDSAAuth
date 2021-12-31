@@ -24,8 +24,8 @@ authObj.auth = async (req, res, next) => {
         throw err;
       } else {
         try {
-          decode = jwt.verify(jwttoken, process.env.TOKEN_SECRET);
           refdecode = jwt.verify(refreshtoken, process.env.TOKEN_SECRET);
+          decode = jwt.verify(jwttoken, process.env.TOKEN_SECRET);
           req.accessToken = token;
           req.userid = decode.userid;
           req.access = true;
@@ -34,7 +34,7 @@ authObj.auth = async (req, res, next) => {
           if (refdecode) {
             const jwtAccessToken = jwt.sign(
               {
-                userid: payload.userid,
+                userid: refdecode.userid,
               },
               process.env.TOKEN_SECRET,
               { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
@@ -46,7 +46,7 @@ authObj.auth = async (req, res, next) => {
               ).toString();
               if (cipherToken) {
                 req.accessToken = cipherToken;
-                req.userid = payload.userid;
+                req.userid = refdecode.userid;
                 req.access = true;
                 next();
               } else {
