@@ -3,8 +3,16 @@ const nodemailer = require("nodemailer");
 sendMailObj = {};
 
 sendMailObj.sendContactMail = (obj) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
+  const transport = nodemailer.createTransport({
+    host: "smtpout.secureserver.net",
+    secure: true,
+    secureConnection: false, // TLS requires secureConnection to be false
+    tls: {
+      ciphers: "SSLv3",
+    },
+    requireTLS: true,
+    port: 465,
+    debug: true,
     auth: {
       user: process.env.email,
       pass: process.env.password,
@@ -16,7 +24,7 @@ sendMailObj.sendContactMail = (obj) => {
     subject: `TrackDSA Suggestion/Feedback`,
     html: `<div>${obj.message}</div><p>Sent By: ${obj.name}</p><p>Sent from: ${obj.email}</p>`,
   };
-  transporter.sendMail(mailData, function (err, info) {
+  transport.sendMail(mailData, function (err, info) {
     if (err) {
       console.log(err);
       throw error;
@@ -28,14 +36,22 @@ sendMailObj.sendContactMail = (obj) => {
 
 sendMailObj.sendResetMail = (receiverMail, name, token) => {
   const transport = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtpout.secureserver.net",
+    secure: true,
+    secureConnection: false, // TLS requires secureConnection to be false
+    tls: {
+      ciphers: "SSLv3",
+    },
+    requireTLS: true,
+    port: 465,
+    debug: true,
     auth: {
       user: process.env.email,
       pass: process.env.password,
     },
   });
   const message = {
-    from: "dsatracker28@gmail.com",
+    from: process.env.email,
     to: receiverMail,
     subject: "Reset your password",
     html: `<h2>Hi <b>${name}</b>,</h2><p>Please click on the button below to reset your password (valid only for 5 minutes)<br><br><a href=https://trackdsa.vercel.app/reset/${token} style="margin-top:10px;color:white;background-color:rgb(0,21,41);padding:10px 20px;border-radius:50px;text-decoration:none ">CLICK ME</a><p>If this doesn't work please try to copy and paste the link in your browser given below </p><br><a href=https://trackdsa.vercel.app/reset/${token}>https://trackdsa.vercel.app/reset/${token}</a>`,
@@ -52,14 +68,22 @@ sendMailObj.sendResetMail = (receiverMail, name, token) => {
 
 sendMailObj.sendOtpMail = (receiverMail, token) => {
   const transport = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtpout.secureserver.net",
+    secure: true,
+    secureConnection: false, // TLS requires secureConnection to be false
+    tls: {
+      ciphers: "SSLv3",
+    },
+    requireTLS: true,
+    port: 465,
+    debug: true,
     auth: {
       user: process.env.email,
       pass: process.env.password,
     },
   });
   const message = {
-    from: "trackdsa28@gmail.com",
+    from: process.env.email,
     to: receiverMail,
     subject: "Verify Email Address",
     html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2;color:black">
