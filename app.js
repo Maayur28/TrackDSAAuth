@@ -26,9 +26,9 @@ app.get("/check", (req, res) => {
 app.use("/", routing);
 app.use(errorLogger);
 
-app.listen(process.env.PORT || 1111, (err) => {
+app.listen(process.env.PORT || 8000, (err) => {
   if (!err) {
-    console.log(`Server started at port ${[process.env.PORT || 1111]}`);
+    console.log(`Server started at port ${[process.env.PORT || 8000]}`);
   } else {
     console.log(`Error in setting up user server`);
   }
