@@ -2,7 +2,10 @@
   "name": "authuser",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "abbrev": "^1.1.1",
     "agent-base": "^6.0.2",
@@ -62,6 +65,7 @@
     "mongoose": "^5.12.12",
     "ms": "^2.1.2",
     "nanoclone": "^0.2.1",
+    "netlify-lambda": "^2.0.16",
     "node-addon-api": "^3.2.1",
     "node-fetch": "^2.6.1",
     "node-telegram-bot-api": "^0.53.0",
@@ -99,7 +103,8 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
