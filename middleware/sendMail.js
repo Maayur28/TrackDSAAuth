@@ -172,6 +172,7 @@ sendMailObj.sendLoginMail = (
       },
     ],
   });
+  console.log("SendLoginMail -- ended");
   request
     .then((result) => {
       console.log(result.body);
