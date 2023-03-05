@@ -57,15 +57,7 @@ validator.RegisterValidator = (obj) => {
       error.message = "Invalid Credentials!!!";
       return false;
     } else {
-      return new Promise(function (resolve, reject) {
-        emailExistence.check(obj.email, function (error, response) {
-          if (response) {
-            resolve(true);
-          } else {
-            reject("Invalid email!!!");
-          }
-        });
-      });
+      return true;
     }
   } else {
     return false;

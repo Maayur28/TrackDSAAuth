@@ -57,7 +57,7 @@ userModel.RegisterUser = async (userObj) => {
     } else {
       let err = new Error();
       err.status = 400;
-      err.message = "User has been already registered";
+      err.message = "Email already exists!!!";
       throw err;
     }
   }

@@ -10,10 +10,17 @@ const moment = require("moment");
 const CryptoJS = require("crypto-js");
 const otpObj = require("../middleware/otp");
 const sendMailObj = require("../middleware/sendMail");
+const DeviceDetector = require("node-device-detector");
 require("dotenv").config();
 let userService = {};
 
-userService.LoginService = async (userObj) => {
+const detector = new DeviceDetector({
+  clientIndexes: true,
+  deviceIndexes: true,
+  deviceAliasCode: false,
+});
+
+userService.LoginService = async (userObj, userAgent) => {
   try {
     if (validator.LoginValidator(userObj)) {
       const getUser = await model.LoginModel(userObj);
@@ -44,8 +51,17 @@ userService.LoginService = async (userObj) => {
                   jwtRefreshToken,
                   getUserId
                 );
-                if (userLoginStatus) return { accessToken, jwtRefreshToken };
-                else {
+                if (userLoginStatus) {
+                  const result = detector.detect(userAgent);
+                  console.log(userAgent, result);
+                  sendMailObj.sendLoginMail(
+                    result.client.name,
+                    result.client.type,
+                    result.device.type,
+                    userObj.email
+                  );
+                  return { accessToken, jwtRefreshToken };
+                } else {
                   let err = new Error();
                   err.status = 500;
                   err.message = "Server is busy!Please try again later";
@@ -137,7 +153,7 @@ userService.RegisterService = async (userObj) => {
             jwtAccessToken,
             process.env.CIPHER_TOKEN
           ).toString();
-          sendMailObj.sendOtpMail(userObj.email, obj.token);
+          sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
           return sessionToken;
         } else {
           let err = new Error();
