@@ -54,7 +54,7 @@ userService.LoginService = async (userObj, userAgent) => {
                 if (userLoginStatus) {
                   const result = detector.detect(userAgent);
                   console.log(userAgent, result);
-                  sendMailObj.sendLoginMail(
+                  await sendMailObj.sendLoginMail(
                     result.client.name,
                     result.client.type,
                     result.device.type,
@@ -153,7 +153,7 @@ userService.RegisterService = async (userObj) => {
             jwtAccessToken,
             process.env.CIPHER_TOKEN
           ).toString();
-          sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
+          await sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
           return sessionToken;
         } else {
           let err = new Error();
@@ -227,7 +227,7 @@ userService.forgetPassword = async (email) => {
     process.env.TOKEN_SECRET,
     { expiresIn: process.env.JWT_VERIFY_ACCESS_TOKEN_EXPIRY_TIME }
   );
-  sendMailObj.sendResetMail(email.email, userObj.name, jwtAccessToken);
+  await sendMailObj.sendResetMail(email.email, userObj.name, jwtAccessToken);
   return true;
 };
 userService.Reset = async (userObj) => {

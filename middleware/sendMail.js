@@ -10,7 +10,7 @@ sendMailObj = {};
 
 console.log("inside sendMail File");
 
-sendMailObj.sendLoginMail = (
+sendMailObj.sendLoginMail = async (
   clientName,
   clientType,
   deviceType,
@@ -182,7 +182,7 @@ sendMailObj.sendLoginMail = (
     });
 };
 
-sendMailObj.sendContactMail = (obj) => {
+sendMailObj.sendContactMail = async (obj) => {
   const transport = nodemailer.createTransport({
     host: "smtpout.secureserver.net",
     secure: true,
@@ -214,7 +214,7 @@ sendMailObj.sendContactMail = (obj) => {
   });
 };
 
-sendMailObj.sendResetMail = (receiverMail, name, token) => {
+sendMailObj.sendResetMail = async (receiverMail, name, token) => {
   const request = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
       {
@@ -567,7 +567,7 @@ sendMailObj.sendResetMail = (receiverMail, name, token) => {
     });
 };
 
-sendMailObj.sendOtpMail = (name, receiverMail, token) => {
+sendMailObj.sendOtpMail = async (name, receiverMail, token) => {
   const request = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
       {
