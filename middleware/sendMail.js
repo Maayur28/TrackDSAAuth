@@ -215,21 +215,23 @@ sendMailObj.sendContactMail = async (obj) => {
 };
 
 sendMailObj.sendResetMail = async (receiverMail, name, token) => {
-  const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: process.env.email,
-          Name: "TrackDSA",
-        },
-        To: [
-          {
-            Email: receiverMail,
-            Name: "You",
+  await mailjet
+    .post("send", { version: "v3.1" })
+    .request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.email,
+            Name: "TrackDSA",
           },
-        ],
-        Subject: "Reset your password",
-        HTMLPart: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+          To: [
+            {
+              Email: receiverMail,
+              Name: "You",
+            },
+          ],
+          Subject: "Reset your password",
+          HTMLPart: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
         <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
             <head>
               <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -555,10 +557,9 @@ sendMailObj.sendResetMail = async (receiverMail, name, token) => {
               </center>
             </body>
           </html>`,
-      },
-    ],
-  });
-  request
+        },
+      ],
+    })
     .then((result) => {
       console.log(result.body);
     })
