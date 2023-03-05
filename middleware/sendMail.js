@@ -8,12 +8,15 @@ const mailjet = Mailjet.apiConnect(
 
 sendMailObj = {};
 
+console.log("inside sendMail File");
+
 sendMailObj.sendLoginMail = (
   clientName,
   clientType,
   deviceType,
   receiverMail
 ) => {
+  console.log("SendLoginMail -- started");
   const request = mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
       {
