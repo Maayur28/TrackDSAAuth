@@ -17,21 +17,23 @@ sendMailObj.sendLoginMail = async (
   receiverMail
 ) => {
   console.log("SendLoginMail -- started");
-  const request = await mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: process.env.email,
-          Name: "TrackDSA",
-        },
-        To: [
-          {
-            Email: receiverMail,
-            Name: "You",
+  await mailjet
+    .post("send", { version: "v3.1" })
+    .request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.email,
+            Name: "TrackDSA",
           },
-        ],
-        Subject: "Login Detected!!!",
-        HTMLPart: `<!-- Change values in [brackets] in the template and pass { {variables} } with API call -->
+          To: [
+            {
+              Email: receiverMail,
+              Name: "You",
+            },
+          ],
+          Subject: "Login Detected!!!",
+          HTMLPart: `<!-- Change values in [brackets] in the template and pass { {variables} } with API call -->
         <!-- Feel free to adjust it to your needs and delete all these comments-->
         <!-- Also adapt TXT version of this email -->
         <!DOCTYPE html>
@@ -169,11 +171,9 @@ sendMailObj.sendLoginMail = async (
         </body>
         </html>
         `,
-      },
-    ],
-  });
-  console.log("SendLoginMail -- ended");
-  await request
+        },
+      ],
+    })
     .then((result) => {
       console.log(result.body);
     })
@@ -568,23 +568,25 @@ sendMailObj.sendResetMail = async (receiverMail, name, token) => {
 };
 
 sendMailObj.sendOtpMail = async (name, receiverMail, token) => {
-  const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: process.env.email,
-          Name: "TrackDSA",
-        },
-        To: [
-          {
-            Email: receiverMail,
-            Name: "You",
+  await mailjet
+    .post("send", { version: "v3.1" })
+    .request({
+      Messages: [
+        {
+          From: {
+            Email: process.env.email,
+            Name: "TrackDSA",
           },
-        ],
-        Subject: "Verify Email Address",
-        TextPart:
-          "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-        HTMLPart: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+          To: [
+            {
+              Email: receiverMail,
+              Name: "You",
+            },
+          ],
+          Subject: "Verify Email Address",
+          TextPart:
+            "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
+          HTMLPart: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
         <html data-editor-version="2" class="sg-campaigns" xmlns="http://www.w3.org/1999/xhtml">
             <head>
               <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -836,10 +838,9 @@ sendMailObj.sendOtpMail = async (name, receiverMail, token) => {
               </center>
             </body>
           </html>`,
-      },
-    ],
-  });
-  request
+        },
+      ],
+    })
     .then((result) => {
       console.log(result.body);
     })
