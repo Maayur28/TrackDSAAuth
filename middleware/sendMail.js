@@ -17,7 +17,7 @@ sendMailObj.sendLoginMail = async (
   receiverMail
 ) => {
   console.log("SendLoginMail -- started");
-  const request = mailjet.post("send", { version: "v3.1" }).request({
+  const request = await mailjet.post("send", { version: "v3.1" }).request({
     Messages: [
       {
         From: {
@@ -173,7 +173,7 @@ sendMailObj.sendLoginMail = async (
     ],
   });
   console.log("SendLoginMail -- ended");
-  request
+  await request
     .then((result) => {
       console.log(result.body);
     })
