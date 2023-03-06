@@ -54,7 +54,7 @@ userService.LoginService = async (userObj, userAgent) => {
                 if (userLoginStatus) {
                   const result = detector.detect(userAgent);
                   console.log(userAgent, result);
-                  await sendMailObj.sendLoginMail(
+                  sendMailObj.sendLoginMail(
                     result.client.name,
                     result.client.type,
                     result.device.type,
@@ -153,7 +153,7 @@ userService.RegisterService = async (userObj) => {
             jwtAccessToken,
             process.env.CIPHER_TOKEN
           ).toString();
-          await sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
+          sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
           return sessionToken;
         } else {
           let err = new Error();
