@@ -441,7 +441,7 @@ sendMailObj.sendResetMail = async (receiverMail, name, token) => {
                   <tbody>
                     <tr>
                     <td align="center" bgcolor="#fbca5b" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;">
-                      <a href="${process.env.DOMAIN}/reset/${token}" style="background-color:#fbca5b; border:1px solid #fbca5b; border-color:#fbca5b; border-radius:0px; border-width:1px; color:#000000; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 50px 12px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Reset Password</a>
+                      <a href=\"${process.env.DOMAIN}/reset/${token}\" style="background-color:#fbca5b; border:1px solid #fbca5b; border-color:#fbca5b; border-radius:0px; border-width:1px; color:#000000; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 50px 12px 50px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Reset Password</a>
                     </td>
                     </tr>
                   </tbody>
