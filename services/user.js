@@ -153,7 +153,7 @@ userService.RegisterService = async (userObj) => {
             jwtAccessToken,
             process.env.CIPHER_TOKEN
           ).toString();
-          sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
+          await sendMailObj.sendOtpMail(userObj.name, userObj.email, obj.token);
           return sessionToken;
         } else {
           let err = new Error();
