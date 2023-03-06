@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 sendMailObj = {};
 
-sendMailObj.sendLoginMail = (
+sendMailObj.sendLoginMail = async (
   clientName,
   clientType,
   deviceType,
@@ -22,6 +22,18 @@ sendMailObj.sendLoginMail = (
       user: process.env.email,
       pass: process.env.password,
     },
+  });
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    mailTransport.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
   });
   const mailData = {
     from: process.env.email,
@@ -165,13 +177,16 @@ sendMailObj.sendLoginMail = (
   </body>
   </html>`,
   };
-  mailTransport.sendMail(mailData, function (err, info) {
-    if (err) {
-      console.log(err);
-      throw err;
-    } else {
-      console.log("success login mail");
-    }
+  await new Promise((resolve, reject) => {
+    mailTransport.sendMail(mailData, function (err, info) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log("success login mail");
+        resolve(info);
+      }
+    });
   });
 };
 

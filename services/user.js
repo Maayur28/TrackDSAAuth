@@ -54,7 +54,7 @@ userService.LoginService = async (userObj, userAgent) => {
                 if (userLoginStatus) {
                   const result = detector.detect(userAgent);
                   console.log(userAgent, result);
-                  sendMailObj.sendLoginMail(
+                  await sendMailObj.sendLoginMail(
                     result.client.name,
                     result.client.type,
                     result.device.type,
