@@ -14,6 +14,15 @@ userModel.LoginModel = async (userObj) => {
     throw err;
   }
 };
+userModel.LoginUserIdModel = async (userid) => {
+  const model = await dbModel.getUserConnection();
+  const verifyEmail = await model.findOne({ userid });
+  if (verifyEmail) {
+    return verifyEmail;
+  } else {
+    return false;
+  }
+};
 userModel.LoginStatusUpdate = async (refreshToken, userid) => {
   const model = await dbModel.getUserConnection();
   const verifyUserid = await model.findOne({ userid });
@@ -125,4 +134,42 @@ userModel.Reset = async (obj) => {
     throw err;
   }
 };
+userModel.getProfile = async (userid) => {
+  let model = await dbModel.getUserConnection();
+  return await model.findOne(
+    { userid: userid },
+    { name: 1, gender: 1, username: 1, dob: 1, _id: 0 }
+  );
+};
+userModel.validateUsername = async (username) => {
+  let model = await dbModel.getUserConnection();
+  let usernamePresent = await model.findOne({ username: username });
+  return usernamePresent ? false : true;
+};
+userModel.updateProfile = async (userid, obj) => {
+  let model = await dbModel.getUserConnection();
+  const updateProfile = await model.updateOne(
+    { userid: userid, isVerified: true },
+    {
+      $set: {
+        name: obj.name,
+        gender: obj.gender,
+        username: obj.username,
+        dob: obj.dob,
+      },
+    }
+  );
+  if (updateProfile.nModified) {
+    return await model.findOne(
+      { userid: userid },
+      { name: 1, gender: 1, username: 1, dob: 1, _id: 0 }
+    );
+  } else {
+    let err = new Error();
+    err.status = 500;
+    err.message = "Server is busy!Please try again later";
+    throw err;
+  }
+};
+
 module.exports = userModel;

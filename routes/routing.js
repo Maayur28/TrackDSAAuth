@@ -8,7 +8,10 @@ require("dotenv").config();
 
 routes.post("/login", async (req, res, next) => {
   try {
-    let { accessToken, jwtRefreshToken } = await service.LoginService(req.body,req.headers["user-agent"]);
+    let { accessToken, jwtRefreshToken } = await service.LoginService(
+      req.body,
+      req.headers["user-agent"]
+    );
     res.status(200);
     res.json({ accessToken, jwtRefreshToken });
   } catch (error) {
@@ -93,6 +96,39 @@ routes.post("/contact", async (req, res, next) => {
       .catch((error) => {
         next(error);
       });
+  } catch (error) {
+    next(error);
+  }
+});
+routes.get("/getprofile/:userid", async (req, res, next) => {
+  try {
+    let profile = await service.getProfile(req.params.userid);
+    res.json({ profile }).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+routes.get("/validateusername/:username", async (req, res, next) => {
+  try {
+    let verified = await service.validateUsername(req.params.username);
+    res.json({ verified }).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+routes.put("/updateprofile/:userid", async (req, res, next) => {
+  try {
+    let profile = await service.updateProfile(req.params.userid, req.body);
+    res.json({ profile }).status(200);
+  } catch (error) {
+    next(error);
+  }
+});
+routes.post("/changepassword/:userid", async (req, res, next) => {
+  try {
+    let status = await service.changePassword(req.params.userid, req.body);
+    console.log(status);
+    res.json({ status }).status(200);
   } catch (error) {
     next(error);
   }

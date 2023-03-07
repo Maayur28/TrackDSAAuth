@@ -237,5 +237,30 @@ userService.Reset = async (userObj) => {
   );
   return await model.Reset(userObj);
 };
-
+userService.getProfile = async (userid) => {
+  return await model.getProfile(userid);
+};
+userService.validateUsername = async (username) => {
+  if (username.trim().length >= 5) {
+    return await model.validateUsername(username);
+  } else return false;
+};
+userService.updateProfile = async (userid, obj) => {
+  return await model.updateProfile(userid, obj);
+};
+userService.changePassword = async (userid, obj) => {
+  const getUser = await model.LoginUserIdModel(userid);
+  if (getUser && obj.password === obj.confirmpassword) {
+    if (await bcrypt.compare(obj.currentpassword, getUser.password)) {
+      let newPassword = await bcrypt.hash(
+        obj.password,
+        await bcrypt.genSalt(11)
+      );
+      let userObj = {};
+      userObj.password = newPassword;
+      userObj.userid = userid;
+      return await model.Reset(userObj);
+    } else return false;
+  } else return false;
+};
 module.exports = userService;
