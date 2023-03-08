@@ -20,6 +20,7 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: [true, "Email is required"] },
     name: { type: String, required: [true, "FirstName is required"] },
     username: { type: String },
+    image: { type: String },
     gender: { type: String, required: [true, "Gender is required"] },
     isLoggedIn: {
       type: Boolean,

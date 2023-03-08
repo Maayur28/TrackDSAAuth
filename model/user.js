@@ -138,7 +138,7 @@ userModel.getProfile = async (userid) => {
   let model = await dbModel.getUserConnection();
   return await model.findOne(
     { userid: userid },
-    { name: 1, gender: 1, username: 1, dob: 1, _id: 0 }
+    { name: 1, gender: 1, username: 1, dob: 1, image: 1, _id: 0 }
   );
 };
 userModel.validateUsername = async (username) => {
@@ -156,13 +156,14 @@ userModel.updateProfile = async (userid, obj) => {
         gender: obj.gender,
         username: obj.username,
         dob: obj.dob,
+        image: obj.image,
       },
     }
   );
   if (updateProfile.nModified) {
     return await model.findOne(
       { userid: userid },
-      { name: 1, gender: 1, username: 1, dob: 1, _id: 0 }
+      { name: 1, gender: 1, username: 1, dob: 1, image: 1, _id: 0 }
     );
   } else {
     let err = new Error();
