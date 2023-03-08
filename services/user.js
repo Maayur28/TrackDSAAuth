@@ -11,6 +11,7 @@ const CryptoJS = require("crypto-js");
 const otpObj = require("../middleware/otp");
 const sendMailObj = require("../middleware/sendMail");
 const DeviceDetector = require("node-device-detector");
+const { default: axios } = require("axios");
 require("dotenv").config();
 let userService = {};
 
@@ -263,4 +264,16 @@ userService.changePassword = async (userid, obj) => {
     } else return false;
   } else return false;
 };
+
+userService.sendContactMail = async (obj) => {
+  await sendMailObj.sendContactMail(obj);
+};
+
+userService.verifyCaptcha = async (req) => {
+  const secretKey = process.env.CAPTCHA_SECRET_KEY;
+  const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
+  const response = await axios.post(verifyURL);
+  return response.data.success;
+};
+
 module.exports = userService;

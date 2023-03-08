@@ -79,23 +79,12 @@ routes.post("/reset", authObj.verifyJwt, async (req, res, next) => {
 routes.post("/contact", async (req, res, next) => {
   try {
     if (!req.body.captcha) return res.json({ success: false }).status(400);
-    const secretKey = process.env.CAPTCHA_SECRET_KEY;
-    const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
-    fetch(verifyURL, {
-      method: "post",
-    })
-      .then((response) => response.json())
-      .then((google_response) => {
-        if (google_response.success == true) {
-          sendMailObj.sendContactMail(req.body);
-          return res.json({ success: true }).status(200);
-        } else {
-          return res.json({ success: false }).status(400);
-        }
-      })
-      .catch((error) => {
-        next(error);
-      });
+    if (await service.verifyCaptcha(req)) {
+      await service.sendContactMail(req.body);
+      return res.json({ success: true }).status(200);
+    } else {
+      return res.json({ success: false }).status(200);
+    }
   } catch (error) {
     next(error);
   }
