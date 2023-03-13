@@ -206,7 +206,7 @@ userService.VerifyOtp = async (userid) => {
         process.env.CIPHER_TOKEN
       ).toString();
       let name = getUser.name;
-      name = name.substring(0, name.indexOf(" "));
+      name = name.split(" ")[0];
       name = name.substring(0, 8);
       let image = getUser.image;
       return { accessToken, jwtRefreshToken, name, image };
