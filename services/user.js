@@ -54,14 +54,17 @@ userService.LoginService = async (userObj, userAgent) => {
                 );
                 if (userLoginStatus) {
                   const result = detector.detect(userAgent);
-                  console.log(userAgent, result);
                   await sendMailObj.sendLoginMail(
                     result.client.name,
                     result.client.type,
                     result.device.type,
                     userObj.email
                   );
-                  return { accessToken, jwtRefreshToken };
+                  let name = getUser.name;
+                  name = name.substring(0, name.indexOf(" "));
+                  name = name.substring(0, 8);
+                  let image = getUser.image;
+                  return { accessToken, jwtRefreshToken, name, image };
                 } else {
                   let err = new Error();
                   err.status = 500;
@@ -196,13 +199,17 @@ userService.VerifyOtp = async (userid) => {
     { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME }
   );
   if (jwtAccessToken && jwtRefreshToken) {
-    let verify = await model.VerifyOtp(userid, jwtRefreshToken);
-    if (verify) {
+    let getUser = await model.VerifyOtp(userid, jwtRefreshToken);
+    if (getUser) {
       let accessToken = CryptoJS.AES.encrypt(
         jwtAccessToken,
         process.env.CIPHER_TOKEN
       ).toString();
-      return { accessToken, jwtRefreshToken };
+      let name = getUser.name;
+      name = name.substring(0, name.indexOf(" "));
+      name = name.substring(0, 8);
+      let image = getUser.image;
+      return { accessToken, jwtRefreshToken, name, image };
     } else {
       let err = new Error();
       err.status = 500;

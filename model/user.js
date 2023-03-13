@@ -89,7 +89,7 @@ userModel.VerifyOtp = async (userid, jwtRefreshToken) => {
     }
   );
   if (updateStatus.nModified) {
-    return true;
+    return await model.findOne({ userid: userid });
   } else {
     let err = new Error();
     err.status = 500;

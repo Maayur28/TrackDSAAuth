@@ -8,12 +8,10 @@ require("dotenv").config();
 
 routes.post("/login", async (req, res, next) => {
   try {
-    let { accessToken, jwtRefreshToken } = await service.LoginService(
-      req.body,
-      req.headers["user-agent"]
-    );
+    let { accessToken, jwtRefreshToken, name, image } =
+      await service.LoginService(req.body, req.headers["user-agent"]);
     res.status(200);
-    res.json({ accessToken, jwtRefreshToken });
+    res.json({ accessToken, jwtRefreshToken, name, image });
   } catch (error) {
     next(error);
   }
@@ -32,10 +30,11 @@ routes.post("/register", async (req, res, next) => {
 routes.post("/verifyotp", authObj.authOtp, async (req, res, next) => {
   try {
     if (req.status) {
-      const { accessToken, jwtRefreshToken } = await service.VerifyOtp(
-        req.userid
-      );
-      return res.json({ accessToken, jwtRefreshToken }).status(200);
+      const { accessToken, jwtRefreshToken, name, image } =
+        await service.VerifyOtp(req.userid);
+      return res
+        .json({ accessToken, jwtRefreshToken, name, image })
+        .status(200);
     } else {
       return res.json({ sessionId: false }).status(400);
     }
