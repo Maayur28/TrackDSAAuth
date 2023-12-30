@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "17.x"
-  },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "abbrev": "^1.1.1",
