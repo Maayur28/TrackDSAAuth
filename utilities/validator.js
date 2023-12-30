@@ -1,5 +1,4 @@
 const joi = require("joi");
-const emailExistence = require("email-existence");
 let validator = {};
 
 validator.LoginValidator = (obj) => {
