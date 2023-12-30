@@ -37,7 +37,7 @@ authObj.auth = async (req, res, next) => {
                 userid: refdecode.userid,
               },
               process.env.TOKEN_SECRET,
-              { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
+              { expiresIn: "1d" }
             );
             if (jwtAccessToken) {
               const cipherToken = CryptoJS.AES.encrypt(

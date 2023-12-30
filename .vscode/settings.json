@@ -1,5 +1,0 @@
-{
-  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"],
-  "appService.defaultWebAppToDeploy": "/subscriptions/78e58709-56da-49b0-b9c2-fcee83a0489c/AppServices/subscriptions/78e58709-56da-49b0-b9c2-fcee83a0489c/resourceGroups/TrackDSA/providers/Microsoft.Web/sites/TrackDSAUser",
-  "appService.deploySubpath": "."
-}

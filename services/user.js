@@ -35,12 +35,12 @@ userService.LoginService = async (userObj, userAgent) => {
                 userid: getUserId,
               },
               process.env.TOKEN_SECRET,
-              { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
+              { expiresIn: "1d" }
             );
             const jwtRefreshToken = jwt.sign(
               { userid: getUserId },
               process.env.TOKEN_SECRET,
-              { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME }
+              { expiresIn: "7d" }
             );
             if (jwtAccessToken && jwtRefreshToken) {
               const accessToken = CryptoJS.AES.encrypt(
@@ -139,7 +139,7 @@ userService.RegisterService = async (userObj) => {
           userid: userObj.userid,
         },
         process.env.TOKEN_SECRET,
-        { expiresIn: process.env.JWT_VERIFY_ACCESS_TOKEN_EXPIRY_TIME }
+        { expiresIn: "5m" }
       );
       if (jwtAccessToken) {
         userObj.accountCreatedOn = moment()
@@ -191,12 +191,12 @@ userService.VerifyOtp = async (userid) => {
       userid: userid,
     },
     process.env.TOKEN_SECRET,
-    { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRY_TIME }
+    { expiresIn: "1d" }
   );
   const jwtRefreshToken = jwt.sign(
     { userid: userid },
     process.env.TOKEN_SECRET,
-    { expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY_TIME }
+    { expiresIn: "7d" }
   );
   if (jwtAccessToken && jwtRefreshToken) {
     let getUser = await model.VerifyOtp(userid, jwtRefreshToken);
@@ -233,7 +233,7 @@ userService.forgetPassword = async (email) => {
       userid: userObj.userId,
     },
     process.env.TOKEN_SECRET,
-    { expiresIn: process.env.JWT_VERIFY_ACCESS_TOKEN_EXPIRY_TIME }
+    { expiresIn: "5m" }
   );
   await sendMailObj.sendResetMail(email.email, userObj.name, jwtAccessToken);
   return true;
